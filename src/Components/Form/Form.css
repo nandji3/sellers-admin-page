@@ -1,0 +1,66 @@
+.form-control {
+    /* margin: 2px 0px; */
+    padding: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+input {
+    padding: 2px;
+    /* border: none; */
+    border: 1.5px solid gray;
+    border-radius: 4px;
+}
+
+input:hover {
+    padding: 2px;
+    border: 2px solid rgb(17, 17, 17);
+}
+
+button {
+    font-variant: inherit;
+    background-color: #04759b;
+    border: none;
+    color: white;
+    padding: 8px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 6px rgba(14, 19, 109, 0.4);
+}
+
+button.add-product {
+    margin-top: 10px;
+    padding: 11px 14px;
+    font-size: 12px;
+}
+button.add-product:hover {
+    background-color: #1989ae;
+}
+
+button.delete-item {
+    background-color: rgb(251, 25, 25);
+    padding: 7px 10px;
+    font-size: 11px;
+}
+button.delete-item:hover {
+    background-color: rgb(211, 14, 21);
+}
+
+button.edit-item {
+    background-color: #04759b;
+    padding: 7px 10px;
+    font-size: 11px;
+}
+button.edit-item:hover {
+    background-color: #1989ae;
+}
+
+button.delete-all-items {
+    background-color: rgb(251, 25, 25);
+    padding: 11px 14px;
+    font-size: 12px;
+}
+button.delete-all-items:hover {
+    background-color: rgb(211, 14, 21);
+}
