@@ -1,1 +1,1 @@
-**Seller's Admin page with total stock value Local Storage**
+# Resturent-Menu-App with Local Storage (3hr React Js Project)
