@@ -1,1 +1,1 @@
-# Resturent-Menu-App with Local Storage (3hr React Js Project)
+# Seller's-Admin-Page with Local Storage (3hr React Js Project)
