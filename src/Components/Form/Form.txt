@@ -11,9 +11,7 @@ const initialItem = {
 
 //To get new raw formData from localStorage to show on screen
 const getLatestFormDataFetchedFromLocalStorage = () => {
-
     let listOfArrayObjectOfFormData = JSON.parse(localStorage.getItem("data"));
-
     if (listOfArrayObjectOfFormData) {
         return listOfArrayObjectOfFormData;
     }
@@ -24,13 +22,15 @@ const getLatestFormDataFetchedFromLocalStorage = () => {
 
 const Form = () => {
 
-    const [item, setItem] = useState(initialItem);
-    const [formData, setFormData] = useState(getLatestFormDataFetchedFromLocalStorage())
-    const [toggleSubmit, setToggleSubmit] = useState(true)
-    const [isUpdateItemID, setIsUpdateItemID] = useState(null);
+    const [item, setItem] = useState(initialItem);   //manage onChange data during every key Strock
+
+    const [formData, setFormData] = useState(getLatestFormDataFetchedFromLocalStorage())  //all input data store in array when submit formData -- we use local storage to save data and every new raw data fetch from local storage and show on screen
+
+    const [toggleSubmit, setToggleSubmit] = useState(true)  //change state of "Add Product" button to "Updat Product" button when we click on edit button. [toggleSubmit=true-->means "Add Product" Button & if when we clicked on edit button then toggleSubmit=false-->means "Update Product" Button]
+
+    const [isUpdateItemID, setIsUpdateItemID] = useState(null);  //store it when we clicked on "Update Product" button
 
     const handleChange = (e) => {
-
         const name = e.target.name;
         const value = e.target.value;
 
@@ -41,7 +41,7 @@ const Form = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
+        // console.log(item)
         //Show alert the enter all filled is required
         if (!(item.productId.trim() && item.sellingPrice.trim() && item.productName.trim())) {
 
@@ -52,9 +52,12 @@ const Form = () => {
             setFormData(
                 formData.map((ele) => {
                     return (ele.id === isUpdateItemID) ? { ...ele, ...item } : ele;
+                    // if (ele.id === isUpdateItemID) {
+                    //     return { ...ele, ...item }
+                    // }
+                    // return item;
                 })
             )
-
             setToggleSubmit(true);
             setItem(initialItem)
             setIsUpdateItemID(null);
@@ -62,39 +65,44 @@ const Form = () => {
 
         //Add new item into formData after click on "Add Product" button
         else {
-            // const itemWithId = { id: new Date().getTime().toString(), ...item }  //How to create add uniqe id
+
+            // const itemWithId = { id: new Date().getTime().toString(), ...item }  //How to create add uniqe id into each item when you set item into formData and localStorage
+            // console.log(itemWithId)
             setFormData((prevFormData) => {
-                return ([...prevFormData, { id: new Date().getTime().toString(), ...item }]);
+                return ([...prevFormData, { id: new Date().getTime().toString(), ...item }])  //also add unique it with each item then finally added in whole formData
                 // return ([...prevFormData, itemWithId])   //also return formData in this formate
             });
         }
-
         setItem(initialItem);
     }
 
-    //To set formData into localStorage
+    //To set formData into localStorage -- when formData change then component re-render and evey time useEffect also run then evey new formData local storage will updata
     useEffect(() => {
         localStorage.setItem("data", JSON.stringify(formData));
     }, [formData])
 
-    //Delete item from list
+
     const deleteItem = (clickedId) => {
-        const updatedFormData = formData.filter((ele) => {
-            return (ele.id !== clickedId)
+        // console.log(id);
+        const updatedFormData = formData.filter((item) => {
+            return (item.id !== clickedId)
         })
         setFormData(updatedFormData)
     }
 
-    //find method is used to traverse through array of item, when 1st item match with given it then return it.
+    //find method is used to traverse through array of item, when 1st item match with given it then return it. Which is usefull for edit item. Because gives same item which we want to edit. 
     const editItem = (clickedId) => {
-        let formEditableData = formData.find((ele) => {
-            return (ele.id === clickedId)
+        let formEditableData = formData.find((item) => {
+            return (item.id === clickedId)
         })
+        // console.log(formEditableData);
 
-        setToggleSubmit(false);
+        setToggleSubmit(false); //when click on edit button make toggleSubmit = false so, my "Add Product " Button change/toggle to "Update Product" Button
         setItem(formEditableData)
-        setIsUpdateItemID(clickedId);
+        // setItem({ productId: formEditableData.productId, productName: formEditableData.productName, sellingPrice: formEditableData.sellingPrice })  //now set new input item which want to update
+        setIsUpdateItemID(clickedId);  //we need to pass editable item id when we clicked on "Update Product" button  
     }
+    // console.log(isUpdateItemID)
 
     const hrStyle = { width: "100%", border: "0", height: "3px", background: "#095484", backgroundImage: "linear-gradient(to right, #ccc, #095484, #ccc)" }
     return (
